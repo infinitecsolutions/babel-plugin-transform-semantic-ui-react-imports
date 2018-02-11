@@ -56,7 +56,7 @@ function getJsImports(importType) {
     if (cache.jsImports._unprefixedImports) {
         unprefixedImports = cache.jsImports._unprefixedImports;
     } else {
-        var semanticUiReactPath = getPackagePath('semantic-ui-react');
+        var semanticUiReactPath = getPackagePath('@infinitecsolutions/semantic-ui-react');
         if (!semanticUiReactPath) {
             error('Package semantic-ui-react could not be found. Install semantic-ui-react or set convertMemberImports ' +
                 'to false.');
@@ -121,7 +121,7 @@ function getCssImports(returnMinified) {
     var returnVersion = returnMinified ? 'minified' : 'unminified';
     if (cache.cssImports) return cache.cssImports[returnVersion];
 
-    var semanticUiCssPath = getPackagePath('semantic-ui-css');
+    var semanticUiCssPath = getPackagePath('@infinitecsolutions/semantic-ui-css');
     if (!semanticUiCssPath) {
         error('Package semantic-ui-css could not be found. Install semantic-ui-css or set addCssImports to false.');
     }
@@ -146,7 +146,7 @@ function getCssImports(returnMinified) {
                 'update');
         }
 
-        cssImports[version][component] = 'semantic-ui-css/components/' + componentFile;
+        cssImports[version][component] = '@infinitecsolutions/semantic-ui-css/components/' + componentFile;
     });
 
     cache.cssImports = cssImports;
@@ -161,7 +161,7 @@ function getCssImports(returnMinified) {
 function getLessImports() {
     if (cache.lessImports) return cache.lessImports;
 
-    var semanticUiLessPath = getPackagePath('semantic-ui-less');
+    var semanticUiLessPath = getPackagePath('@infinitecsolutions/semantic-ui-less');
     if (!semanticUiLessPath) {
         error('Package semantic-ui-less could not be found. Install semantic-ui-less or set addLessImports to false.');
     }
@@ -178,7 +178,7 @@ function getLessImports() {
         if (lessImports[component]) {
             error('duplicate less component name \'' + component + '\' - probably the plugin needs an update');
         }
-        lessImports[component] = 'semantic-ui-less/' + importPath + '.less';
+        lessImports[component] = '@infinitecsolutions/semantic-ui-less/' + importPath + '.less';
     }
 
     cache.lessImports = lessImports;
@@ -239,7 +239,7 @@ module.exports = function(babel) {
                     var ids = [].concat(lodashPlugin[1].id);
                     console.log(ids);
                     ids.forEach(function(id) {
-                        if (id === 'semantic-ui-react') {
+                        if (id === '@infinitecsolutions/semantic-ui-react') {
                             foundLodashPluginWithIdSemanticReactUi = true;
                         }
                     });
@@ -249,7 +249,7 @@ module.exports = function(babel) {
 
         visitor: {
             ImportDeclaration: function(path, state) {
-                var packageRegex = /^((.*!)?semantic-ui-react)([/\\].*)?$/;
+                var packageRegex = /^((.*!)?@infinitecsolutions[/\\]semantic-ui-react)([/\\].*)?$/;
                 var match = packageRegex.exec(path.node.source.value);
                 var importBase = match && match[1];
                 var importPath = match && match[3] || '';
